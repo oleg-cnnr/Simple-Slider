@@ -114,33 +114,28 @@ var HV_Slider = new Class({
 		y = self.parseRel(screenId)[1];
 		
 		var curRow = $(passedId).getParent().getParent();
-		//if(curRow.offsetTop == 0){
-		if(curRow === curRow.getParent().getFirst('li')){
-			alert(curRow.offsetTop)
-			//alert(-(curRow.scrollHeight * (curRow.getParent().getChildren().length-1)))
-			
-			alert("Scroll to last "+curRow.offsetHeight);
-			var sys = this.clientHeight;
-			var step = (curRow.offsetHeight) * (curRow.getParent('UL').getChildren('LI').length - 1)
-			alert(step)
-			curRow.getParent().setStyle('top', -step)
-		}
-		else{
-			curRow.getParent().setStyles({
-				'top': -curRow.offsetHeight
-			})
-			
-			alert("Scroll to previous "+curRow.offsetTop);	
-		}
-
 		
-
 		if(direction == 'top'){
-			//alert('looking for top sibling')
+			if(curRow === curRow.getParent().getFirst('li')){
+			var step = curRow.scrollHeight * (curRow.getParent().getChildren().length-1);
+			curRow.getParent().setStyle('top', -step)
+			}
+			else{
+				var curPos = curRow.offsetTop;
+				var step = curRow.offsetTop - curRow.offsetHeight;
+				curRow.getParent().setStyle('top', -step)
+			}
 		}
 
 		if(direction == 'bot'){
-			//alert('looking for bot sibling')
+			if(curRow === curRow.getParent().getLast('li')){
+			curRow.getParent().setStyle('top', '0')
+			}
+			else{
+				var curPos = curRow.offsetTop;
+				var step = -curPos - curRow.offsetHeight;
+				curRow.getParent().setStyle('top', step)
+			}
 		}
 	},
 
