@@ -1,0 +1,65 @@
+HTML {
+	margin: 0; padding: 0;
+}
+
+HTML, BODY {
+    height:100%; margin:0;
+}
+
+HTML>BODY {
+    min-height:100%;
+    height:auto;
+}
+
+BODY {
+	zoom: 1;
+    position:relative;
+}
+
+#wrapper {
+	background: #dff;
+	position: absolute;
+	min-width: 800px; min-height: 600px;
+	width: 100%; height: 100%;
+	overflow: hidden;
+}
+
+#relContainer {
+	width: 100%;/* height: 100%;*/
+    left: 0; top: 0;
+    margin: 0; padding: 0;
+    position: absolute;
+    height: 100%;
+}
+	#relContainer LI {
+		display: inline-block;
+		width: 100%; height: 100%;
+		position: relative; margin: 0 !important; padding: 0;
+	}
+		#relContainer LI UL {margin: 0; padding: 0;}
+
+/* ROWS */
+.row {
+	height: 100%; min-width: 100%;
+	text-align: center;
+	overflow: hidden;
+	position: absolute; top: 0; left: 0;
+}
+	#rTop {}
+	#rMid {}
+	#rBot {}
+
+/* ITEMS */
+.item {
+	/*min-width: 800px; min-height: 600px;*/
+	width: 100px; height: 200px;
+	display: inline-block;
+	position: relative;
+	text-align: left;
+}
+
+/* CONTROLS */
+A.toTop   {display: block; width: 8%; height: 100px; background: #f0f; left: 46%; top: 0; position: absolute; cursor: pointer;}
+A.toBot   {display: block; width: 8%; height: 100px; background: #f0f; left: 46%; bottom: 0; position: absolute; cursor: pointer;}
+A.toLeft  {display: block; width: 100px; height: 16%; background: #000; left: 0; top: 42%; position: absolute; cursor: pointer;}
+A.toRight {display: block; width: 100px; height: 16%; background: #000; right: 0; top: 42%; position: absolute; cursor: pointer;}
