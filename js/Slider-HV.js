@@ -1,4 +1,10 @@
 /*** 2d slider ***/
+/*
+ * TODO
+ * 1. dry code Fx && direction selection methods
+ * 2. check for unused methods
+ *
+ */
 
 var HV_Slider = new Class({
 	
@@ -13,7 +19,7 @@ var HV_Slider = new Class({
 	  startX: 2,
 	  startY: 2,
 	  pageHref: location.href,
-
+	  duration: 1000
 	},
 
 	//** initialization  **
@@ -53,11 +59,9 @@ var HV_Slider = new Class({
 			//alert('Using incoming coords');
 		}
 		*/
-
 	},
 
 	
-
 	start: function() {
 		var self = this;
 	},
@@ -121,23 +125,55 @@ var HV_Slider = new Class({
 		if(direction == 'top'){
 			if(curRow === curRow.getParent().getFirst('li')){
 			var step = curRow.scrollHeight * (curRow.getParent().getChildren().length-1);
-			curRow.getParent().setStyle('top', -step)
+
+				var slideFx = new Fx.Morph(curRow.getParent(), {
+			    duration: self.options.duration,
+			    transition: Fx.Transitions.Sine.easeOut
+				});
+				slideFx.start({
+			    'top': -step  
+				});
+
 			}
 			else{
 				var curPos = curRow.offsetTop;
 				var step = curRow.offsetTop - curRow.offsetHeight;
-				curRow.getParent().setStyle('top', -step)
+
+					var slideFx = new Fx.Morph(curRow.getParent(), {
+				    duration: self.options.duration,
+				    transition: Fx.Transitions.Sine.easeOut
+					});
+					slideFx.start({
+				    'top': -step  
+					});
 			}
 		}
 
 		if(direction == 'bot'){
 			if(curRow === curRow.getParent().getLast('li')){
-			curRow.getParent().setStyle('top', '0')
+
+				var slideFx = new Fx.Morph(curRow.getParent(), {
+			    duration: self.options.duration,
+			    transition: Fx.Transitions.Sine.easeOut
+				});
+				slideFx.start({
+			    'top': 0  
+				});
+
 			}
 			else{
 				var curPos = curRow.offsetTop;
 				var step = -curPos - curRow.offsetHeight;
-				curRow.getParent().setStyle('top', step)
+				//curRow.getParent().setStyle('top', step)
+
+				var slideFx = new Fx.Morph(curRow.getParent(), {
+			    duration: self.options.duration,
+			    transition: Fx.Transitions.Sine.easeOut
+				});
+				slideFx.start({
+			    'top': step  
+				});
+
 			}
 		}
 	},
@@ -152,31 +188,52 @@ var HV_Slider = new Class({
 		if(direction == 'left'){
 			if(curItem === curItem.getParent().getFirst('li')){
 				var step = curItem.offsetWidth * (curItem.getParent().getChildren().length-1);
-				curItem.getParent().setStyles({
-					'left': -step
-				})
+
+				var slideFx = new Fx.Morph(curItem.getParent(), {
+			    duration: self.options.duration,
+			    transition: Fx.Transitions.Sine.easeOut
+				});
+				slideFx.start({
+			    'left': -step  
+				});
+
 			}
 			else{
 				var curPos = curItem.offsetLeft;
 				var step = curPos - curItem.offsetWidth;
-				curItem.getParent().setStyles({
-					'left': -step
-				})
+
+				var slideFx = new Fx.Morph(curItem.getParent(), {
+			    duration: self.options.duration,
+			    transition: Fx.Transitions.Sine.easeOut
+				});
+				slideFx.start({
+			    'left': -step  
+				});
 			}
 		}
 
 		if(direction == 'right'){
 			if(curItem === curItem.getParent().getLast('li')){
-				curItem.getParent().setStyles({
-					'left': 0
-				})
+
+				var slideFx = new Fx.Morph(curItem.getParent(), {
+			    duration: self.options.duration,
+			    transition: Fx.Transitions.Sine.easeOut
+				});
+				slideFx.start({
+			    'left': 0  
+				});
 			}
 			else{
 				var curPos = curItem.offsetLeft;
 				var step = -curPos - curItem.offsetWidth;
-				curItem.getParent().setStyles({
-					'left': step
-				})
+
+				var slideFx = new Fx.Morph(curItem.getParent(), {
+			    duration: self.options.duration,
+			    transition: Fx.Transitions.Sine.easeOut
+				});
+				slideFx.start({
+			    'left': step  
+				});
 			}
 		}
 	},
