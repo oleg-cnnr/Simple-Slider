@@ -10,7 +10,12 @@
 
       <script type="text/javascript">
         window.addEvent('domready', function(){
-          var Slider = new HV_Slider();
+          var Slider = new HV_Slider({
+            startX: 2,
+            startY: 2
+          });
+
+          Slider.start();
         });
       </script>
   </head>

@@ -14,10 +14,9 @@ var HV_Slider = new Class({
 
 	//** user-defined variables  **
 	options: {
-	  
 	  container: 'relContainer',
-	  startX: 2,
-	  startY: 2,
+	  startX: 1,
+	  startY: 1,
 	  pageHref: location.href,
 	  duration: 1000
 	},
@@ -25,7 +24,9 @@ var HV_Slider = new Class({
 	//** initialization  **
 	initialize: function(options) {
 		var self = this;
-		var anchor = this.options.pageHref.split('#')['1'];
+
+		//set options
+		this.setOptions(options);
 
 		//** getting rows of the slider container **
 		row = $(this.options.container).getChildren('li')
@@ -45,30 +46,29 @@ var HV_Slider = new Class({
 
 		//** set lnear dimensions for items && their containers
 		self.setDimensions();
-
-		//**  check query string for coords                           **
-		//**  if empty - using the user-defined 'startX' && 'startY'  **
-		/*
-		if(anchor == null){
-			self.slideTo(self.options.startX, self.options.startY);
-		}
-		else
-		{
-			//self.parseId();
-			self.slideTo(coordX, coordY);
-			//alert('Using incoming coords');
-		}
-		*/
 	},
 
 	
 	start: function() {
 		var self = this;
+		self.slideTo(self.options.startX, self.options.startY);
 	},
 
 	slideTo: function(coordX, coordY) {
 		var self = this;
-		//alert('Call from initializer with '+coordX+" "+coordY);
+
+		var targetRel = "screen-"+coordX+"-"+coordY;
+		var target = $(targetRel);
+			// target screen coords
+			targetX = target.offsetLeft;
+			targetY = target.getParent('ul').getParent('li').offsetTop;
+
+			// moving steps
+			var stepX = target.getParent().offsetLeft - targetX;
+			var stepY = target.getParent().getParent().getParent().offsetTop - targetY;
+
+			self.slideFx(target.getParent(), { 'left': stepX });
+			self.slideFx(target.getParent().getParent().getParent(), { 'top': stepY });
 	},
 
 	//** adding controls link to each screen
@@ -125,55 +125,23 @@ var HV_Slider = new Class({
 		if(direction == 'top'){
 			if(curRow === curRow.getParent().getFirst('li')){
 			var step = curRow.scrollHeight * (curRow.getParent().getChildren().length-1);
-
-				var slideFx = new Fx.Morph(curRow.getParent(), {
-			    duration: self.options.duration,
-			    transition: Fx.Transitions.Sine.easeOut
-				});
-				slideFx.start({
-			    'top': -step  
-				});
-
+				self.slideFx(curRow.getParent(), { 'top': -step });
 			}
 			else{
 				var curPos = curRow.offsetTop;
 				var step = curRow.offsetTop - curRow.offsetHeight;
-
-					var slideFx = new Fx.Morph(curRow.getParent(), {
-				    duration: self.options.duration,
-				    transition: Fx.Transitions.Sine.easeOut
-					});
-					slideFx.start({
-				    'top': -step  
-					});
+					self.slideFx(curRow.getParent(), { 'top': -step });
 			}
 		}
 
 		if(direction == 'bot'){
 			if(curRow === curRow.getParent().getLast('li')){
-
-				var slideFx = new Fx.Morph(curRow.getParent(), {
-			    duration: self.options.duration,
-			    transition: Fx.Transitions.Sine.easeOut
-				});
-				slideFx.start({
-			    'top': 0  
-				});
-
+				self.slideFx(curRow.getParent(), { 'top': 0 });
 			}
 			else{
 				var curPos = curRow.offsetTop;
 				var step = -curPos - curRow.offsetHeight;
-				//curRow.getParent().setStyle('top', step)
-
-				var slideFx = new Fx.Morph(curRow.getParent(), {
-			    duration: self.options.duration,
-			    transition: Fx.Transitions.Sine.easeOut
-				});
-				slideFx.start({
-			    'top': step  
-				});
-
+					self.slideFx(curRow.getParent(), { 'top': step });
 			}
 		}
 	},
@@ -188,52 +156,23 @@ var HV_Slider = new Class({
 		if(direction == 'left'){
 			if(curItem === curItem.getParent().getFirst('li')){
 				var step = curItem.offsetWidth * (curItem.getParent().getChildren().length-1);
-
-				var slideFx = new Fx.Morph(curItem.getParent(), {
-			    duration: self.options.duration,
-			    transition: Fx.Transitions.Sine.easeOut
-				});
-				slideFx.start({
-			    'left': -step  
-				});
-
+					self.slideFx(curItem.getParent(), { 'left': -step });
 			}
 			else{
 				var curPos = curItem.offsetLeft;
 				var step = curPos - curItem.offsetWidth;
-
-				var slideFx = new Fx.Morph(curItem.getParent(), {
-			    duration: self.options.duration,
-			    transition: Fx.Transitions.Sine.easeOut
-				});
-				slideFx.start({
-			    'left': -step  
-				});
+					self.slideFx(curItem.getParent(), { 'left': -step });
 			}
 		}
 
 		if(direction == 'right'){
 			if(curItem === curItem.getParent().getLast('li')){
-
-				var slideFx = new Fx.Morph(curItem.getParent(), {
-			    duration: self.options.duration,
-			    transition: Fx.Transitions.Sine.easeOut
-				});
-				slideFx.start({
-			    'left': 0  
-				});
+				self.slideFx(curItem.getParent(), { 'left': 0 });
 			}
 			else{
 				var curPos = curItem.offsetLeft;
 				var step = -curPos - curItem.offsetWidth;
-
-				var slideFx = new Fx.Morph(curItem.getParent(), {
-			    duration: self.options.duration,
-			    transition: Fx.Transitions.Sine.easeOut
-				});
-				slideFx.start({
-			    'left': step  
-				});
+					self.slideFx(curItem.getParent(), { 'left': step });
 			}
 		}
 	},
@@ -256,5 +195,14 @@ var HV_Slider = new Class({
 
 				r.setStyle('width', width);
 		})
+	},
+
+	slideFx: function(target, params) {
+		self = this;
+
+		new Fx.Morph(target, {
+	    duration   : self.options.duration,
+	    transition : Fx.Transitions.Sine.easeOut
+			}).start(params);
 	}
 })

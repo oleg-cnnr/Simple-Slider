@@ -1,6 +1,4 @@
-HTML {
-	margin: 0; padding: 0;
-}
+HTML {}
 
 HTML, BODY {
     height:100%; margin:0;
@@ -12,7 +10,6 @@ HTML>BODY {
 }
 
 BODY {
-	zoom: 1;
     position:relative;
 }
 
