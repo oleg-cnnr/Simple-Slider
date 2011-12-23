@@ -20,7 +20,6 @@ var HV_Slider = new Class({
 	initialize: function(options) {
 		var self = this;
 		var anchor = this.options.pageHref.split('#')['1'];
-		//alert(this.options.pageHref.split('#')['1']);
 
 		//** getting rows of the slider container **
 		row = $(this.options.container).getChildren('li')
@@ -38,9 +37,12 @@ var HV_Slider = new Class({
 			})
 		});
 
+		//** set lnear dimensions for items && their containers
+		self.setDimensions();
 
 		//**  check query string for coords                           **
 		//**  if empty - using the user-defined 'startX' && 'startY'  **
+		/*
 		if(anchor == null){
 			self.slideTo(self.options.startX, self.options.startY);
 		}
@@ -50,6 +52,7 @@ var HV_Slider = new Class({
 			self.slideTo(coordX, coordY);
 			//alert('Using incoming coords');
 		}
+		*/
 
 	},
 
@@ -111,7 +114,7 @@ var HV_Slider = new Class({
 
 	slideVer: function(direction, screenId, passedId){
 		var self = this;
-		y = self.parseRel(screenId)[1];
+		//y = self.parseRel(screenId)[1];
 		
 		var curRow = $(passedId).getParent().getParent();
 		
@@ -139,15 +142,62 @@ var HV_Slider = new Class({
 		}
 	},
 
-	slideHor: function(direction, screenId){
+	slideHor: function(direction, screenId, passedId){
 		var self = this;
-		x = self.parseRel(screenId)[0];
-		alert(x);
+		//x = self.parseRel(screenId)[0];
+		//alert(x);
+
+		var curItem = $(passedId);
+
+		if(direction == 'left'){
+			if(curItem === curItem.getParent().getFirst('li')){
+				var step = curItem.offsetWidth * (curItem.getParent().getChildren().length-1);
+				curItem.getParent().setStyles({
+					'left': -step
+				})
+			}
+			else{
+				var curPos = curItem.offsetLeft;
+				var step = curPos - curItem.offsetWidth;
+				curItem.getParent().setStyles({
+					'left': -step
+				})
+			}
+		}
+
+		if(direction == 'right'){
+			if(curItem === curItem.getParent().getLast('li')){
+				curItem.getParent().setStyles({
+					'left': 0
+				})
+			}
+			else{
+				var curPos = curItem.offsetLeft;
+				var step = -curPos - curItem.offsetWidth;
+				curItem.getParent().setStyles({
+					'left': step
+				})
+			}
+		}
 	},
 
 	parseRel: function(screenId){
 		x = screenId.split('-')['1'];
 		y = screenId.split('-')['2'];
 		return [x, y];
+	},
+
+	setDimensions: function(){
+		var row = $$('.row');
+
+		row.each(function(r){
+				var width = r.getChildren('li').length * r.offsetWidth;
+				
+				r.getChildren('li').each(function(li){
+					li.setStyle('width', r.offsetWidth)
+				})
+
+				r.setStyle('width', width);
+		})
 	}
 })

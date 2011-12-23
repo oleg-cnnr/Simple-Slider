@@ -51,9 +51,8 @@ BODY {
 
 /* ITEMS */
 .item {
-	/*min-width: 800px; min-height: 600px;*/
-	width: 100px; height: 200px;
-	display: inline-block;
+	min-width: 800px; min-height: 600px;
+	display: inline-block; float: left;
 	position: relative;
 	text-align: left;
 }
